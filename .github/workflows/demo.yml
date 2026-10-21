@@ -25,7 +25,7 @@ jobs:
         run: npm ci
       - name: Build website
         run: npm run build
-        # storing data folder
+        # storing data folder in reality under the job itself
       - name: Store data
         uses: actions/upload-artifact@v7
         with:
@@ -35,5 +35,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    # downloads the artifacts from build job. Needs build step to complete.
+      - name: Get build artifacts
+        uses: actions/download-artifact@v7
+        with:
+          name: dist-files
+      - name: Output contents
+        run: ls
       - name: Deploy
         run: echo "Deploying..."
